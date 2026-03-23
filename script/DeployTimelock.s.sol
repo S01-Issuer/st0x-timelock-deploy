@@ -28,9 +28,6 @@ contract DeployTimelock is Script {
             address(0) // no admin — timelock self-governs
         );
 
-        // Grant guardian the canceller role
-        timelock.grantRole(timelock.CANCELLER_ROLE(), guardian);
-
         vm.stopBroadcast();
 
         console2.log("Timelock deployed at:", address(timelock));

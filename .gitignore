@@ -1,4 +1,4 @@
 out/
 cache/
 .env
-broadcast/*/run-latest.json
+broadcast
