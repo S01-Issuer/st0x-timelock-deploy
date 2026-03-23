@@ -22,7 +22,7 @@ contract DeployTimelock is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         S01Timelock timelock = new S01Timelock(
-            48 hours,
+            1 seconds,
             proposers,
             executors,
             address(0) // no admin — timelock self-governs
