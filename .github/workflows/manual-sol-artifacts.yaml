@@ -1,0 +1,30 @@
+name: Deploy Timelock
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Deploy DeployTimelock to Base
+        run: |
+          forge script script/DeployTimelock.s.sol \
+            --rpc-url base \
+            --broadcast \
+            --verify \
+            -vvvv
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          PROPOSER_1: ${{ secrets.PROPOSER_1 }}
+          PROPOSER_2: ${{ secrets.PROPOSER_2 }}
+          GUARDIAN: ${{ secrets.GUARDIAN }}
+          RPC_URL_BASE: ${{ secrets.RPC_URL_BASE }}
+          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
