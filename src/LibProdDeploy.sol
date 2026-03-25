@@ -2,5 +2,5 @@
 pragma solidity ^0.8.25;
 
 library LibProdDeploy {
-    uint256 constant MIN_DELAY = 48 hours;
+    uint256 constant MIN_DELAY = 5 minutes;
 }
