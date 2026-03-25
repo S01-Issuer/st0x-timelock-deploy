@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 
 import {Script, console2} from "forge-std/Script.sol";
 import {S01Timelock} from "../src/S01Timelock.sol";
+import {LibProdDeploy} from "../src/LibProdDeploy.sol";
 
 contract DeployTimelock is Script {
     function run() external {
@@ -22,10 +23,10 @@ contract DeployTimelock is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         S01Timelock timelock = new S01Timelock(
-            1 seconds,
+            LibProdDeploy.MIN_DELAY,
             proposers,
             executors,
-            address(0) // no admin — timelock self-governs
+            address(0)
         );
 
         vm.stopBroadcast();
