@@ -11,8 +11,6 @@ contract DeployTimelock is Script {
 
         address proposer1 = vm.envAddress("PROPOSER_1");
         address proposer2 = vm.envAddress("PROPOSER_2");
-        address guardian = vm.envAddress("GUARDIAN");
-
         address[] memory proposers = new address[](2);
         proposers[0] = proposer1;
         proposers[1] = proposer2;
