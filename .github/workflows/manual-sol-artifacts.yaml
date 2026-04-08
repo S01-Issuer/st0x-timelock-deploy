@@ -22,6 +22,28 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
 
+      - name: Run tests
+        run: forge test -vv
+
+      - name: Simulate deploy (in-memory, no broadcast)
+        run: forge script script/SimulateDeploy.s.sol --sig "run()" -vvvv
+        env:
+          PROPOSER_1: ${{ inputs.PROPOSER_1 || secrets.PROPOSER_1 }}
+          PROPOSER_2: ${{ inputs.PROPOSER_2 || secrets.PROPOSER_2 }}
+
+      - name: Simulate deploy (fork Base, no broadcast)
+        run: |
+          DEPLOYER=$(cast wallet address --private-key "$PRIVATE_KEY")
+          forge script script/SimulateDeploy.s.sol \
+            --rpc-url base \
+            --sender "$DEPLOYER" \
+            -vvvv
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          RPC_URL_BASE: ${{ secrets.RPC_URL_BASE }}
+          PROPOSER_1: ${{ inputs.PROPOSER_1 || secrets.PROPOSER_1 }}
+          PROPOSER_2: ${{ inputs.PROPOSER_2 || secrets.PROPOSER_2 }}
+
       - name: Deploy DeployTimelock to Base
         run: |
           forge script script/DeployTimelock.s.sol \
